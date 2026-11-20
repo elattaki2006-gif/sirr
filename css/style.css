@@ -1,0 +1,247 @@
+/* Sirr — palette inspirée du Jardin Majorelle de Marrakech : bleu Majorelle et jaune citron. */
+:root {
+  --majorelle: #3F2BD6;
+  --majorelle-fonce: #2E1DB0;
+  --citron: #F6D23B;
+  --citron-fonce: #E2BC1C;
+  --nuit: #15123F;
+  --nuit-douce: #4B4777;
+  --brume: #ECEAFB;
+  --ligne: #D5D1F2;
+  --blanc: #FFFFFF;
+  --rouge: #C62F3B;
+  --vert: #1F7A4D;
+
+  --display: "Unbounded", "Instrument Sans", system-ui, sans-serif;
+  --texte: "Instrument Sans", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--texte);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--nuit);
+  background: var(--blanc);
+}
+a { color: inherit; }
+button, input, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--citron); outline-offset: 3px; }
+.mono { font-family: var(--mono); }
+.conteneur { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+[hidden] { display: none !important; }
+
+/* ---------- Boutons ---------- */
+.bouton {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 26px; border-radius: 999px; border: 2px solid transparent;
+  font-weight: 600; text-decoration: none; cursor: pointer; white-space: nowrap;
+  transition: background-color .15s, transform .1s;
+}
+.bouton:active { transform: translateY(1px); }
+.bouton[disabled] { opacity: .65; cursor: progress; }
+.bouton.petit { padding: 9px 16px; font-size: .95rem; }
+.bouton.large { width: 100%; padding: 15px; font-size: 1.05rem; margin-top: 22px; }
+.format + .bouton.large { margin-top: 0; }
+.bouton-citron { background: var(--citron); color: var(--nuit); }
+.bouton-citron:hover { background: var(--citron-fonce); }
+.bouton-bleu { background: var(--majorelle); color: var(--blanc); }
+.bouton-bleu:hover { background: var(--majorelle-fonce); }
+.bouton-contour { background: var(--blanc); color: var(--majorelle); border-color: var(--majorelle); }
+.bouton-contour:hover { background: var(--brume); }
+.lien-discret { background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; color: inherit; font-size: inherit; }
+
+/* ---------- En-tête et accueil (bleu Majorelle) ---------- */
+.bleu { background: var(--majorelle); color: var(--blanc); }
+.bleu :focus-visible { outline-color: var(--citron); }
+.entete { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-top: 24px; padding-bottom: 24px; }
+.logo { display: flex; align-items: baseline; gap: 10px; text-decoration: none; }
+.logo-lat { font-family: var(--display); font-weight: 700; font-size: 1.6rem; letter-spacing: -0.02em; }
+.logo-ar { font-size: 1.5rem; color: var(--citron); }
+.nav { display: flex; gap: 26px; font-size: .95rem; }
+.nav a { text-decoration: none; opacity: .88; border-bottom: 2px solid transparent; padding-bottom: 2px; }
+.nav a:hover { opacity: 1; border-bottom-color: var(--citron); }
+
+.accueil {
+  display: grid; grid-template-columns: 1.15fr 1fr; gap: 64px; align-items: center;
+  padding-top: 48px; padding-bottom: 96px;
+}
+.titre {
+  font-family: var(--display); font-weight: 700;
+  font-size: clamp(2rem, 4.2vw, 3.4rem); line-height: 1.08; letter-spacing: -0.025em;
+  margin: 0 0 24px; max-width: 17ch;
+}
+.intro { font-size: 1.15rem; max-width: 50ch; margin: 0 0 34px; color: #E3DFFF; }
+
+/* La démo : l'élément fort de la page */
+.demo {
+  margin: 0; background: var(--citron); color: var(--nuit);
+  border-radius: 28px; padding: 30px 30px 24px;
+  transform: rotate(1.2deg);
+  box-shadow: 14px 14px 0 var(--nuit);
+}
+.demo-etiquette { font-weight: 600; font-size: .95rem; margin-bottom: 12px; }
+.demo-texte {
+  font-family: var(--mono); font-size: 1.25rem; line-height: 1.45; margin: 0;
+  min-height: 7.5em; word-break: break-all; overflow-wrap: anywhere;
+}
+.demo-legende { display: flex; justify-content: space-between; gap: 16px; font-size: .88rem; margin-top: 16px; color: #3B3560; }
+
+/* ---------- Sections ---------- */
+.section { padding-top: 88px; padding-bottom: 88px; }
+.titre-section {
+  font-family: var(--display); font-weight: 700; letter-spacing: -0.02em;
+  font-size: clamp(1.6rem, 3vw, 2.3rem); line-height: 1.15; margin: 0 0 32px;
+}
+.sous-intro { max-width: 62ch; margin: -16px 0 34px; color: var(--nuit-douce); }
+
+/* Étapes */
+.etapes { list-style: none; margin: 0 0 56px; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; counter-reset: etape; }
+.etapes li { counter-increment: etape; }
+.etapes li::before {
+  content: counter(etape);
+  display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
+  background: var(--majorelle); color: var(--citron);
+  font-family: var(--display); font-weight: 700; font-size: 1.3rem; margin-bottom: 18px;
+}
+.etapes h3 { font-size: 1.2rem; margin: 0 0 8px; }
+.etapes p { margin: 0; color: var(--nuit-douce); }
+
+/* Schéma */
+.schema { display: grid; grid-template-columns: 1fr auto 1.4fr auto 1fr; align-items: center; gap: 14px; }
+.schema-bloc { border: 2px solid var(--nuit); border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.schema-reseaux { background: var(--brume); border-style: dashed; }
+.schema-qui { font-size: .85rem; color: var(--nuit-douce); }
+.schema-message { font-weight: 600; overflow-wrap: anywhere; }
+.schema-message.mono { font-weight: 500; color: var(--majorelle); }
+.schema-plateformes { font-size: .85rem; color: var(--nuit-douce); }
+.schema-fleche { display: flex; align-items: center; font-size: .9rem; font-weight: 600; white-space: nowrap; }
+.schema-fleche span { padding: 6px 12px; border-radius: 999px; background: var(--citron); }
+
+/* ---------- Essayer ---------- */
+.section-brume { background: var(--brume); padding: 88px 0; }
+.alerte { background: #FDE8EA; color: var(--rouge); border-radius: 12px; padding: 14px 18px; }
+.atelier { display: grid; grid-template-columns: 1fr 44px 1fr; gap: 0; align-items: start; }
+.trajet { align-self: center; text-align: center; font-family: var(--display); font-size: 1.8rem; color: var(--majorelle); pointer-events: none; }
+.trajet span { display: inline-block; }
+.panneau { background: var(--blanc); border-radius: 22px; padding: 30px; min-width: 0; }
+.panneau-titre { display: flex; align-items: center; gap: 12px; font-size: 1.2rem; margin: 0 0 22px; }
+.pastille-num {
+  display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%;
+  background: var(--majorelle); color: var(--citron); font-family: var(--display); font-size: .95rem;
+}
+.panneau label, .format legend { display: block; font-weight: 600; font-size: .95rem; margin: 18px 0 8px; }
+.panneau-titre + label { margin-top: 0; }
+.champ {
+  display: block; width: 100%; padding: 13px 15px;
+  border: 2px solid var(--ligne); border-radius: 12px; background: var(--blanc);
+  font-size: 1rem; resize: vertical;
+}
+.champ:focus { border-color: var(--majorelle); outline: none; box-shadow: 0 0 0 3px rgba(63, 43, 214, .18); }
+.champ.mono { font-size: .92rem; }
+.ligne-cle { display: flex; gap: 10px; }
+.ligne-cle .champ { flex: 1; min-width: 0; }
+
+.force { display: flex; align-items: center; gap: 12px; margin-top: 10px; font-size: .88rem; color: var(--nuit-douce); }
+.force-barre { display: flex; gap: 4px; }
+.force-barre span { width: 30px; height: 6px; border-radius: 3px; background: var(--ligne); }
+.force[data-niveau="faible"] .force-barre span:nth-child(1) { background: var(--rouge); }
+.force[data-niveau="moyenne"] .force-barre span:nth-child(-n+2) { background: var(--citron-fonce); }
+.force[data-niveau="forte"] .force-barre span { background: var(--vert); }
+
+.format { border: 0; padding: 0; margin: 20px 0 24px; }
+.panneau .format legend { margin: 0 0 10px; padding: 0; }
+.format label { display: inline-flex; align-items: center; gap: 8px; font-weight: 500; margin: 0 22px 0 0; cursor: pointer; }
+.format input { accent-color: var(--majorelle); width: 18px; height: 18px; }
+
+.etat { min-height: 1.5em; margin: 12px 0 0; font-size: .95rem; font-weight: 500; }
+.etat.erreur { color: var(--rouge); }
+.etat.ok { color: var(--vert); }
+
+.resultat { margin-top: 8px; border-top: 2px dashed var(--ligne); padding-top: 4px; }
+.sortie { background: var(--brume); border-color: transparent; color: var(--majorelle); }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+
+.compat-titre { font-size: .9rem; color: var(--nuit-douce); margin: 20px 0 8px; }
+.compat { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.compat li { font-size: .88rem; padding: 6px 12px; border-radius: 999px; background: #E3F3EA; color: var(--vert); }
+.compat li.non { background: #FDE8EA; color: var(--rouge); }
+
+/* Radiographie */
+.radio { margin-top: 22px; }
+.radio summary { cursor: pointer; font-weight: 600; color: var(--majorelle); }
+.radio-barre { display: flex; height: 22px; border-radius: 6px; overflow: hidden; margin: 14px 0 12px; }
+.radio-barre span { min-width: 4px; }
+.seg-version { background: var(--nuit); }
+.seg-sel { background: var(--citron); }
+.seg-iv { background: #F29E4C; }
+.seg-chiffre { background: var(--majorelle); }
+.seg-etiquette { background: var(--vert); }
+.radio-legende { display: grid; grid-template-columns: 14px max-content 1fr; gap: 6px 10px; align-items: baseline; margin: 0; font-size: .88rem; }
+.radio-legende dt { width: 12px; height: 12px; border-radius: 3px; align-self: center; }
+.radio-legende .nom { font-weight: 600; }
+.radio-legende dd { margin: 0; color: var(--nuit-douce); min-width: 0; }
+.radio-legende code { font-family: var(--mono); font-size: .8rem; overflow-wrap: anywhere; color: var(--nuit); }
+
+/* Message déchiffré */
+.clair { margin-top: 18px; background: var(--citron); border-radius: 18px; padding: 20px 22px; }
+.clair-titre { font-size: .9rem; font-weight: 600; }
+.clair-texte { font-size: 1.35rem; font-weight: 600; margin: 6px 0 0; overflow-wrap: anywhere; white-space: pre-wrap; }
+
+/* ---------- Histoire et César ---------- */
+.histoire { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+.histoire-texte p { margin: 0 0 18px; max-width: 58ch; }
+.cesar { border: 2px solid var(--nuit); border-radius: 22px; padding: 28px; }
+.cesar label { display: block; font-weight: 600; font-size: .95rem; margin: 16px 0 8px; }
+.cesar label:first-child { margin-top: 0; }
+.cesar input[type="range"] { width: 100%; accent-color: var(--majorelle); }
+.cesar-sous { display: block; font-weight: 600; font-size: .95rem; margin: 16px 0 6px; }
+.cesar-chiffre { background: var(--brume); border-radius: 12px; padding: 13px 15px; margin: 0 0 18px; overflow-wrap: anywhere; color: var(--majorelle); }
+.cesar-verdict { font-weight: 600; margin: 16px 0 8px; min-height: 1.5em; }
+.cesar-essais { margin: 0; padding: 0 0 0 2.6em; max-height: 230px; overflow: auto; font-size: .82rem; color: var(--nuit-douce); }
+.cesar-essais li { padding: 2px 6px; border-radius: 6px; }
+.cesar-essais li.trouve { background: var(--citron); color: var(--nuit); font-weight: 500; }
+
+/* ---------- Sous le capot (nuit) ---------- */
+.section-nuit { background: var(--nuit); color: #E9E7FF; padding: 88px 0; }
+.section-nuit .titre-section { color: var(--blanc); }
+.capot { display: grid; grid-template-columns: 1.5fr 1fr; gap: 56px; }
+.specs { display: grid; grid-template-columns: max-content 1fr; gap: 14px 28px; margin: 0; }
+.specs dt { font-weight: 600; color: var(--citron); }
+.specs dd { margin: 0; max-width: 60ch; }
+.limites { border: 2px solid #3A3570; border-radius: 22px; padding: 26px 28px; align-self: start; }
+.limites h3 { margin: 0 0 12px; font-size: 1.1rem; color: var(--blanc); }
+.limites ul { margin: 0; padding-left: 1.1em; }
+.limites li { margin-bottom: 8px; }
+
+/* ---------- Pied de page ---------- */
+.pied { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; padding-top: 30px; padding-bottom: 40px; font-size: .92rem; color: var(--nuit-douce); }
+
+/* ---------- Écrans moyens et petits ---------- */
+@media (max-width: 960px) {
+  .nav { display: none; }
+  .accueil, .histoire, .capot { grid-template-columns: 1fr; gap: 48px; }
+  .accueil { padding-bottom: 72px; }
+  .demo { transform: none; box-shadow: 8px 8px 0 var(--nuit); }
+  .atelier { grid-template-columns: 1fr; gap: 0; }
+  .trajet { padding: 10px 0; }
+  .trajet span { transform: rotate(90deg); }
+  .schema { grid-template-columns: 1fr; }
+  .schema-fleche { justify-content: center; }
+}
+@media (max-width: 640px) {
+  .conteneur { padding-left: 18px; padding-right: 18px; }
+  .etapes { grid-template-columns: 1fr; gap: 28px; }
+  .section, .section-brume, .section-nuit { padding-top: 64px; padding-bottom: 64px; }
+  .panneau, .cesar { padding: 22px; }
+  .specs { grid-template-columns: 1fr; gap: 4px; }
+  .specs dd { margin-bottom: 12px; }
+  .ligne-cle { flex-direction: column; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .bouton { transition: none; }
+}

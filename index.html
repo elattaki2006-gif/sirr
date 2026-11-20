@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sirr — envoie un secret sur n'importe quel réseau</title>
+<meta name="description" content="Chiffre un message avec AES-256, envoie-le sur WhatsApp, Instagram, TikTok ou YouTube. Seule la personne qui a la clé peut le lire.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ EN-TÊTE + ACCUEIL ============ -->
+<div class="bleu">
+  <header class="entete conteneur">
+    <a class="logo" href="#" aria-label="Sirr, accueil">
+      <span class="logo-lat">Sirr</span><span class="logo-ar" lang="ar">سرّ</span>
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#principe">Le principe</a>
+      <a href="#essayer">Essayer</a>
+      <a href="#histoire">Pourquoi pas mélanger les lettres ?</a>
+      <a href="#capot">Sous le capot</a>
+    </nav>
+  </header>
+
+  <section class="accueil conteneur">
+    <div class="accueil-texte">
+      <h1 class="titre">Envoie un secret sur n'importe quel réseau. Seul ton ami pourra le lire.</h1>
+      <p class="intro">Sirr transforme ton message en suite de caractères incompréhensible, que tu peux poster sur WhatsApp, Instagram, TikTok ou YouTube. Pour le relire, il faut la clé, et c'est toi qui la donnes.</p>
+      <a class="bouton bouton-citron" href="#essayer">Essayer maintenant</a>
+    </div>
+
+    <figure class="demo" aria-label="Démonstration : un message devient illisible">
+      <div class="demo-etiquette" id="demo-etiquette">Ton message</div>
+      <p class="demo-texte" id="demo-texte">Rendez-vous à 18h devant la fac</p>
+      <figcaption class="demo-legende">
+        <span id="demo-legende">Chiffré pour de vrai avec AES-256, dans ton navigateur.</span>
+        <button type="button" class="lien-discret" id="demo-rejouer">Rejouer</button>
+      </figcaption>
+    </figure>
+  </section>
+</div>
+
+<main>
+  <!-- ============ LE PRINCIPE ============ -->
+  <section class="section conteneur" id="principe">
+    <h2 class="titre-section">Le principe en 30 secondes</h2>
+
+    <ol class="etapes">
+      <li>
+        <h3>Crée une clé, donne-la en vrai</h3>
+        <p>Sirr génère une clé unique. Donne-la à ton ami en personne, ou par un autre moyen que celui du message.</p>
+      </li>
+      <li>
+        <h3>Chiffre, puis poste où tu veux</h3>
+        <p>Ton message devient du charabia (en lettres ou en emojis). Tout le monde peut le voir, personne ne peut le lire.</p>
+      </li>
+      <li>
+        <h3>Ton ami le déchiffre</h3>
+        <p>Il colle le charabia dans Sirr avec la clé, et retrouve ton message exact. Sans la clé, rien.</p>
+      </li>
+    </ol>
+
+    <div class="schema" aria-label="Schéma du trajet d'un message">
+      <div class="schema-bloc">
+        <span class="schema-qui">Toi</span>
+        <span class="schema-message">Rendez-vous à 18h</span>
+      </div>
+      <div class="schema-fleche"><span>🔒 chiffrer</span></div>
+      <div class="schema-bloc schema-reseaux">
+        <span class="schema-qui">Ce que tout le monde voit</span>
+        <span class="schema-message mono">sirr1:6g4QCkhbmasb…</span>
+        <span class="schema-plateformes">WhatsApp, Instagram, TikTok, YouTube</span>
+      </div>
+      <div class="schema-fleche"><span>🔑 déchiffrer</span></div>
+      <div class="schema-bloc">
+        <span class="schema-qui">Ton ami</span>
+        <span class="schema-message">Rendez-vous à 18h</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ESSAYER ============ -->
+  <section class="section-brume" id="essayer">
+    <div class="conteneur">
+      <h2 class="titre-section">Essaie-le</h2>
+      <p class="sous-intro">À gauche, tu joues l'expéditeur. À droite, ton ami. Tout reste dans ton navigateur : rien n'est envoyé à un serveur.</p>
+
+      <p class="alerte" id="alerte-crypto" hidden>Ton navigateur ne permet pas le chiffrement ici. Ouvre la page en <strong>https</strong> (par exemple sur GitHub Pages) ou avec un navigateur récent.</p>
+
+      <div class="atelier">
+        <!-- Expéditeur -->
+        <form class="panneau" id="form-chiffrer" novalidate>
+          <h3 class="panneau-titre"><span class="pastille-num">1</span>Toi, l'expéditeur</h3>
+
+          <label for="cle-exp">Clé secrète</label>
+          <div class="ligne-cle">
+            <input id="cle-exp" class="champ mono" type="text" autocomplete="off" spellcheck="false" placeholder="Génère une clé ou écris la tienne">
+            <button type="button" class="bouton bouton-citron petit" id="generer">Générer</button>
+          </div>
+          <div class="force" id="force" aria-live="polite">
+            <div class="force-barre"><span></span><span></span><span></span></div>
+            <span class="force-texte" id="force-texte">Aucune clé pour l'instant</span>
+          </div>
+
+          <label for="message">Ton message</label>
+          <textarea id="message" class="champ" rows="4" placeholder="Rendez-vous à 18h devant la fac"></textarea>
+
+          <fieldset class="format">
+            <legend>Format du message chiffré</legend>
+            <label><input type="radio" name="format" value="texte" checked> Lettres et chiffres</label>
+            <label><input type="radio" name="format" value="emoji"> Emojis</label>
+          </fieldset>
+
+          <button type="submit" class="bouton bouton-bleu large" id="bouton-chiffrer">Chiffrer</button>
+          <p class="etat" id="etat-chiffrer" role="status" aria-live="polite"></p>
+
+          <div class="resultat" id="resultat-chiffrer" hidden>
+            <label for="sortie">Message chiffré, prêt à poster</label>
+            <textarea id="sortie" class="champ mono sortie" rows="4" readonly></textarea>
+            <div class="actions">
+              <button type="button" class="bouton bouton-contour petit" id="copier">Copier</button>
+              <button type="button" class="bouton bouton-contour petit" id="copier-lien">Copier comme lien</button>
+              <button type="button" class="bouton bouton-bleu petit" id="envoyer">Envoyer à mon ami (démo)</button>
+            </div>
+
+            <p class="compat-titre" id="compat-titre"></p>
+            <ul class="compat" id="compat"></ul>
+
+            <details class="radio" id="radio">
+              <summary>Radiographie du message chiffré</summary>
+              <div class="radio-barre" id="radio-barre" aria-hidden="true"></div>
+              <dl class="radio-legende" id="radio-legende"></dl>
+            </details>
+          </div>
+        </form>
+
+        <div class="trajet" aria-hidden="true"><span>→</span></div>
+
+        <!-- Destinataire -->
+        <form class="panneau" id="form-dechiffrer" novalidate>
+          <h3 class="panneau-titre"><span class="pastille-num">2</span>Ton ami, le destinataire</h3>
+
+          <label for="recu">Message reçu</label>
+          <textarea id="recu" class="champ mono" rows="4" spellcheck="false" placeholder="Colle ici le message chiffré (sirr1:… ou 🔐…)"></textarea>
+
+          <label for="cle-dest">Clé secrète</label>
+          <input id="cle-dest" class="champ mono" type="text" autocomplete="off" spellcheck="false" placeholder="La clé donnée par l'expéditeur">
+
+          <button type="submit" class="bouton bouton-bleu large" id="bouton-dechiffrer">Déchiffrer</button>
+          <p class="etat" id="etat-dechiffrer" role="status" aria-live="polite"></p>
+
+          <div class="clair" id="clair" hidden>
+            <span class="clair-titre">Message déchiffré</span>
+            <p class="clair-texte" id="clair-texte"></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ POURQUOI PAS MÉLANGER LES LETTRES ============ -->
+  <section class="section conteneur" id="histoire">
+    <h2 class="titre-section">Pourquoi pas simplement mélanger les lettres ?</h2>
+    <div class="histoire">
+      <div class="histoire-texte">
+        <p>Remplacer chaque lettre par une autre, ou changer leur ordre : c'est comme ça qu'on a chiffré pendant 2 000 ans. Jules César décalait chaque lettre de 3 rangs (A devient D).</p>
+        <p>Le problème : il n'existe que <strong>25 décalages</strong>. Un ordinateur les essaie tous en une fraction de milliseconde, puis garde celui qui ressemble le plus à du français, grâce à la fréquence des lettres (le E est la lettre la plus courante).</p>
+        <p>Sirr utilise <strong>AES-256</strong>, le standard des banques et des messageries. Il y a 2<sup>256</sup> clés possibles, un nombre à 78 chiffres. Même en testant un milliard de milliards de clés par seconde, il faudrait bien plus longtemps que l'âge de l'univers.</p>
+      </div>
+
+      <div class="cesar">
+        <label for="cesar-clair">Ton message</label>
+        <input id="cesar-clair" class="champ" type="text" value="Rendez-vous a dix-huit heures devant la bibliotheque">
+        <label for="cesar-decalage">Décalage : <strong id="cesar-valeur">7</strong></label>
+        <input id="cesar-decalage" type="range" min="1" max="25" value="7">
+        <span class="cesar-sous">Chiffré avec César</span>
+        <p class="cesar-chiffre mono" id="cesar-chiffre"></p>
+        <button type="button" class="bouton bouton-contour" id="casser">Casser sans connaître la clé</button>
+        <p class="cesar-verdict" id="cesar-verdict" aria-live="polite"></p>
+        <ol class="cesar-essais mono" id="cesar-essais" start="0"></ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SOUS LE CAPOT ============ -->
+  <section class="section-nuit" id="capot">
+    <div class="conteneur">
+      <h2 class="titre-section">Sous le capot</h2>
+      <div class="capot">
+        <dl class="specs">
+          <dt>Chiffrement</dt>
+          <dd>AES-256-GCM. Il cache le message <em>et</em> vérifie son intégrité : si un seul caractère est modifié en route, le déchiffrement est refusé.</dd>
+          <dt>Dérivation de la clé</dt>
+          <dd>PBKDF2-HMAC-SHA256, 600 000 itérations, sel aléatoire de 16 octets (recommandation OWASP). Deviner une clé devient très lent.</dd>
+          <dt>Vecteur d'initialisation</dt>
+          <dd>12 octets aléatoires à chaque message : le même texte donne un résultat différent à chaque fois.</dd>
+          <dt>Format</dt>
+          <dd>version | sel | IV | message chiffré | étiquette, encodé en Base58 (que des lettres et des chiffres, rien que les réseaux puissent abîmer) ou en un emoji par octet.</dd>
+          <dt>Clés générées</dt>
+          <dd>25 caractères de l'alphabet de Crockford, soit 125 bits. Pas de confusion possible entre O et 0, ni entre I et 1.</dd>
+          <dt>Où ça tourne</dt>
+          <dd>Dans ton navigateur, avec la Web Crypto API. Pas de serveur, pas de compte, rien n'est enregistré.</dd>
+          <dt>Aussi en Python</dt>
+          <dd>Une version en ligne de commande, testée pour être 100 % compatible avec le site.</dd>
+        </dl>
+
+        <div class="limites">
+          <h3>Ce que Sirr ne fait pas</h3>
+          <ul>
+            <li>Il ne transmet pas la clé : c'est à toi de la donner par un autre moyen.</li>
+            <li>Il cache le contenu, pas le fait que vous vous écrivez.</li>
+            <li>Une clé courte ou facile se devine : utilise la clé générée.</li>
+            <li>C'est un projet étudiant, pas un outil audité : pour des secrets vitaux, utilise Signal.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="pied conteneur">
+  <span>Projet étudiant d'Anass Elattaki, licence cybersécurité, FST Marrakech.</span>
+  <a href="https://github.com/elattaki2006-gif/sirr">Code source sur GitHub</a>
+</footer>
+
+<script src="js/sirr-crypto.js"></script>
+<script src="js/cesar.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
